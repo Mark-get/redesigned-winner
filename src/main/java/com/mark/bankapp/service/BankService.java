@@ -17,6 +17,30 @@ public class BankService {
         return null;
     }
 
+    public boolean deposit(int accountNumber, double amount) {
+        for (Account acc : accounts) {
+            if (acc.getAccountNumber() == accountNumber) {
+                acc.setBalance(acc.getBalance() + amount);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean withdraw(int accountNumber, double amount) {
+        for (Account acc : accounts) {
+            if (acc.getAccountNumber() == accountNumber) {
+
+                if (amount > acc.getBalance()) {
+                    return false;
+                }
+                acc.setBalance(acc.getBalance() - amount);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void createNewAccount(Account account){
         Account isReal = findAccount(account.getAccountNumber());
         if(isReal == null){
