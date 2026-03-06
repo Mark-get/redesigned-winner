@@ -8,7 +8,7 @@ public class BankService {
 
     private ArrayList<Account> accounts = new ArrayList<>();
 
-    public Account findAccount(int accNum){
+    public Account findAccount(String accNum){
         for(Account account: accounts){
             if(account.getAccountNumber() == accNum){
                 return account;
@@ -17,7 +17,7 @@ public class BankService {
         return null;
     }
 
-    public boolean deposit(int accountNumber, double amount) {
+    public boolean deposit(String accountNumber, double amount) {
         for (Account acc : accounts) {
             if (acc.getAccountNumber() == accountNumber) {
                 acc.setBalance(acc.getBalance() + amount);
@@ -28,7 +28,7 @@ public class BankService {
 
     }
 
-    public boolean withdraw(int accountNumber, double amount) {
+    public boolean withdraw(String accountNumber, double amount) {
         for (Account acc : accounts) {
             if (acc.getAccountNumber() == accountNumber) {
 
@@ -52,7 +52,7 @@ public class BankService {
         }
     }
 
-    public void deleteAccount(int accNum){
+    public void deleteAccount(String accNum){
         Account accountToDelete = findAccount(accNum);
         if(accountToDelete != null){
             accounts.remove(accountToDelete);
