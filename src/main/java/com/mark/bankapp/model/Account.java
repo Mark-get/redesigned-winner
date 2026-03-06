@@ -11,13 +11,15 @@ public class Account {
     private String currency;
     private String status;
     private LocalDateTime createdAt;
+    private String accountType;
 
 
-    public Account(String accountNumber, Double balance, Integer id, Integer ownerId) {
+    public Account(String accountNumber, Double balance, Integer id, Integer ownerId, String accountType) {
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.id= id;
         this.ownerId = ownerId;
+        this.accountType = accountType;
 
     }
 
@@ -61,5 +63,8 @@ public class Account {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-
+    public String getAccountType(){
+        return accountType;
+    }
+    public void setAccountType(String accountType) { this.accountType = accountType; }
 }
