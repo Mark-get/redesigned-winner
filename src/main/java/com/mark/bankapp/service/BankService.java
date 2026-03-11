@@ -1,71 +1,59 @@
 package com.mark.bankapp.service;
 
 import com.mark.bankapp.model.Account;
+import org.springframework.stereotype.Service;
+import com.mark.bankapp.repository.AccountRepository;
 
-import java.util.ArrayList;
+import java.util.List;
 
+
+@Service
 public class BankService {
+    private final AccountRepository accountRepository;
 
-    private ArrayList<Account> accounts = new ArrayList<>();
-
-    public Account findAccount(String accNum){
-        for(Account account: accounts){
-            if(account.getAccountNumber() == accNum){
-                return account;
-            }
-        }
-        return null;
+    public BankService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
     }
 
-    public boolean deposit(String accountNumber, double amount) {
-        for (Account acc : accounts) {
-            if (acc.getAccountNumber() == accountNumber) {
-                acc.setBalance(acc.getBalance() + amount);
-                return true;
-            }
-        }
-        return false;
-
+    public Account findAccount(Integer accNum){
+        return accountRepository.findById(accNum).orElse(null);
     }
 
-    public boolean withdraw(String accountNumber, double amount) {
-        for (Account acc : accounts) {
-            if (acc.getAccountNumber() == accountNumber) {
-
-                if (amount > acc.getBalance()) {
-                    return false;
-                }
-                acc.setBalance(acc.getBalance() - amount);
-                return true;
-            }
+    public boolean deposit(Integer accountNumber, double amount) {
+        Account acc = findAccount(accountNumber);
+        if(acc == null){
+            return false;
         }
-        return false;
+        acc.setBalance(acc.getBalance() + amount);
+        accountRepository.save(acc);
+        return true;
     }
 
-    public void createNewAccount(Account account){
-        Account isReal = findAccount(account.getAccountNumber());
-        if(isReal == null){
-            accounts.add(account);
-            System.out.println("New Acc: "+ account.getAccountNumber());
-        } else {
-            System.out.println("Account " + account.getAccountNumber() + " is not found");
+    public boolean withdraw(Integer accountNumber, double amount) {
+        Account acc = findAccount(accountNumber);
+        if(acc == null){
+            return false;
         }
+        if(amount > acc.getBalance()){
+            return false;
+        }
+        acc.setBalance(acc.getBalance() - amount);
+        accountRepository.save(acc);
+        return true;
     }
 
-    public void deleteAccount(String accNum){
-        Account accountToDelete = findAccount(accNum);
-        if(accountToDelete != null){
-            accounts.remove(accountToDelete);
-            System.out.println("Account with number " + accNum + " has been successfuly deleted");
-        } else{
-            System.out.println("Account " + accNum + " is not found");
+    public Account createNewAccount(Account account){
+        if(accountRepository.existsById(account.getAccountNumber())){
+            return null;
         }
+        return accountRepository.save(account);
     }
 
-    public void printAllAccounts(){
-        for(Account account: accounts){
-            System.out.println(account.getAccountNumber());
-            System.out.println(account.getBalance());
-        }
+    public void deleteAccount(Integer accNum){
+        accountRepository.deleteById(accNum);
+    }
+
+    public List<Account> getAllAccounts(){
+        return accountRepository.findAll();
     }
 }

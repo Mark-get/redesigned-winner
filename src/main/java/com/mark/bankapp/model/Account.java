@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class Account {
 
-    private String accountNumber;
+    private Integer accountNumber;
     private Double balance;
     private Integer id;
     private Integer ownerId;
@@ -14,7 +14,7 @@ public class Account {
     private String accountType;
 
 
-    public Account(String accountNumber, Double balance, Integer id, Integer ownerId, String accountType) {
+    public Account(Integer accountNumber, Double balance, Integer id, Integer ownerId, String accountType) {
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.id= id;
@@ -23,10 +23,10 @@ public class Account {
 
     }
 
-    public String getAccountNumber() {
+    public Integer getAccountNumber() {
         return accountNumber;
     }
-    public void setAccountNumber(String accountNumber) {
+    public void setAccountNumber(Integer accountNumber) {
         this.accountNumber = accountNumber;
     }
 
